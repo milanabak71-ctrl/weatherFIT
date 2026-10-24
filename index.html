@@ -40,19 +40,19 @@ body {
 header { text-align: center; margin-bottom: 18px; }
 header h1 { margin: 0 0 6px; font-size: 26px; }
 header p { margin: 0; color: var(--muted); font-size: 15px; }
-.themes {
-  display: flex; gap: 8px; justify-content: center; margin: 16px 0 20px;
-}
-.themes button {
-  border: 2px solid var(--accent);
-  background: transparent;
-  color: var(--text);
-  padding: 8px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 14px;
+.controls { margin-bottom: 16px; }
+select, .themes button, .locate {
   font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  padding: 10px 12px;
 }
+select { width: 100%; margin-bottom: 10px; }
+.row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.themes button, .locate { cursor: pointer; border-radius: 999px; padding: 8px 14px; }
 .themes button.active { background: var(--accent); color: #fff; }
 .card {
   background: var(--card);
@@ -66,37 +66,16 @@ header p { margin: 0; color: var(--muted); font-size: 15px; }
 .temp { font-size: 64px; font-weight: 700; margin: 6px 0; color: var(--accent); }
 .condition { font-size: 18px; margin-bottom: 4px; }
 .hilo { color: var(--muted); font-size: 15px; }
-.stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px;
-}
-.stat {
-  background: var(--accent-soft);
-  border-radius: 14px;
-  padding: 10px 6px;
-  text-align: center;
-  font-size: 13px;
-}
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+.stat { background: var(--accent-soft); border-radius: 14px; padding: 10px 6px; text-align: center; font-size: 13px; }
 .stat b { display: block; font-size: 17px; margin-top: 4px; }
 .summary { font-size: 17px; line-height: 1.6; margin: 0; }
 h2 { font-size: 19px; margin: 0 0 12px; }
 .outfit { list-style: none; padding: 0; margin: 0; }
-.outfit li {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px dashed var(--accent-soft);
-  font-size: 16px;
-}
+.outfit li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--accent-soft); font-size: 16px; }
 .outfit li:last-child { border-bottom: none; }
-.outfit .icon {
-  width: 40px; height: 40px; border-radius: 12px;
-  background: var(--accent-soft);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
-}
-.tip {
-  margin-top: 14px; padding: 12px 14px; border-radius: 14px;
-  background: var(--accent-soft); font-size: 15px; line-height: 1.5;
-}
+.outfit .icon { width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.tip { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--accent-soft); font-size: 15px; line-height: 1.5; }
 footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8px; }
 </style>
 </head>
@@ -107,17 +86,18 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8
     <p>הנה מה שאני חושב על היום בחוץ</p>
   </header>
 
-
-  <div style="margin-bottom:16px">
-    <select onchange="setCity(this.value)" style="width:100%;padding:10px 12px;border-radius:14px;border:2px solid var(--accent);background:var(--card);color:var(--text);font-family:inherit;font-size:15px">
+  <div class="controls">
+    <select id="citySelect" onchange="setCity(this.value)">
       <option value="ירושלים">ירושלים</option>
       <option value="תל אביב">תל אביב</option>
     </select>
-  </div>
-
-  <div class="themes">
-    <button id="btn-pink" class="active" onclick="setTheme('pink')">ורוד בייבי</button>
-    <button id="btn-blue" onclick="setTheme('blue')">כחול כהה</button>
+    <div class="row">
+      <button class="locate" onclick="locateMe()">📍 זהה לפי מיקום</button>
+      <div class="themes">
+        <button id="btn-pink" class="active" onclick="setTheme('pink')">ורוד בייבי</button>
+        <button id="btn-blue" onclick="setTheme('blue')">כחול כהה</button>
+      </div>
+    </div>
   </div>
 
   <section class="card now">
@@ -147,49 +127,66 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8
 </div>
 
 <script>
-// נתוני מזג האוויר (צילום מצב). לשינוי: ערכו את הערכים כאן.
+// נתוני מזג האוויר (צילום מצב). לשינוי: ערכו את הערכים או הוסיפו עיר חדשה.
+// lat/lon משמשים לזיהוי העיר הקרובה לפי מיקום.
 const CITIES = {
   "ירושלים": {
-    city: "ירושלים",
-    temp: 29,
-    feels: 29,
-    high: 31,
-    low: 19,
-    condition: "בהיר",
-    rainChance: 0,
-    windKmh: 14,
-    windDir: "צפון-מערב",
-    humidity: 47,
-    uv: "נמוך",
-    sunset: "19:46"
+    city: "ירושלים", lat: 31.77, lon: 35.21,
+    temp: 29, feels: 29, high: 31, low: 19, condition: "בהיר",
+    rainChance: 0, windKmh: 14, humidity: 47, uv: "נמוך", sunset: "19:46"
   },
   "תל אביב": {
-    city: "תל אביב",
-    temp: 31,
-    feels: 34,
-    high: 31,
-    low: 24,
-    condition: "בהיר",
-    rainChance: 0,
-    windKmh: 11,
-    windDir: "מערב",
-    humidity: 55,
-    uv: "מאוד גבוה",
-    sunset: "19:47"
+    city: "תל אביב", lat: 32.08, lon: 34.78,
+    temp: 31, feels: 34, high: 31, low: 24, condition: "בהיר",
+    rainChance: 0, windKmh: 11, humidity: 55, uv: "מאוד גבוה", sunset: "19:47"
   }
 };
+const STORAGE_KEY = "outfit-app-city";
+const THEME_KEY = "outfit-app-theme";
 let WEATHER = CITIES["ירושלים"];
 
-
-function setCity(name) {
+function setCity(name, save = true) {
+  if (!CITIES[name]) return;
   WEATHER = CITIES[name];
+  document.getElementById("citySelect").value = name;
+  if (save) {
+    try { localStorage.setItem(STORAGE_KEY, name); } catch (e) {}
+  }
   render();
 }
 
-function setTheme(name) {
+function distance(lat1, lon1, lat2, lon2) {
+  const dLat = lat1 - lat2, dLon = lon1 - lon2;
+  return Math.sqrt(dLat * dLat + dLon * dLon);
+}
+
+function locateMe() {
+  if (!navigator.geolocation) {
+    alert("המכשיר לא תומך בזיהוי מיקום. אפשר לבחור עיר ידנית.");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude, longitude } = pos.coords;
+      let nearest = null, best = Infinity;
+      for (const name in CITIES) {
+        const d = distance(latitude, longitude, CITIES[name].lat, CITIES[name].lon);
+        if (d < best) { best = d; nearest = name; }
+      }
+      setCity(nearest, true);
+    },
+    () => alert("לא הצלחתי לזהות את המיקום. אפשר לבחור עיר ידנית."),
+    { timeout: 8000 }
+  );
+}
+
+function setTheme(name, save = true) {
   document.body.classList.toggle("blue", name === "blue");
   document.getElementById("btn-pink").classList.toggle("active", name === "pink");
   document.getElementById("btn-blue").classList.toggle("active", name === "blue");
+  if (save) {
+    try { localStorage.setItem(THEME_KEY, name); } catch (e) {}
+  }
 }
 
 function buildOutfit(w) {
@@ -210,12 +207,8 @@ function buildOutfit(w) {
     items.push({ icon: "👢", text: "נעליים סגורות ושמורות מקור" });
   }
 
-  if (w.rainChance >= 40) {
-    items.push({ icon: "☔", text: "מטריה או מעיל עמיד למים" });
-  }
-  if (w.windKmh >= 20) {
-    items.push({ icon: "🌬️", text: "משהו שלא יתעופף: מעיל קל או שכבה נוספת" });
-  }
+  if (w.rainChance >= 40) items.push({ icon: "☔", text: "מטריה או מעיל עמיד למים" });
+  if (w.windKmh >= 20) items.push({ icon: "🌬️", text: "משהו שלא יתעופף: מעיל קל או שכבה נוספת" });
   if (w.uv === "גבוה" || w.uv === "מאוד גבוה") {
     items.push({ icon: "🧴", text: "קרם הגנה ומשקפי שמש, השמש חזקה" });
   } else {
@@ -261,7 +254,16 @@ function render() {
   document.getElementById("tip").textContent = buildTip(w);
 }
 
-render();
+// טעינה: קודם בודקים אם יש בחירה שמורה, ואם לא, הדף נשאר על ירושלים.
+(function init() {
+  let savedCity = null, savedTheme = null;
+  try {
+    savedCity = localStorage.getItem(STORAGE_KEY);
+    savedTheme = localStorage.getItem(THEME_KEY);
+  } catch (e) {}
+  if (savedTheme) setTheme(savedTheme, false);
+  setCity(savedCity && CITIES[savedCity] ? savedCity : "ירושלים", false);
+})();
 </script>
 </body>
 </html>
