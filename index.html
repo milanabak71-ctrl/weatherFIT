@@ -40,8 +40,8 @@ body {
 header { text-align: center; margin-bottom: 18px; }
 header h1 { margin: 0 0 6px; font-size: 26px; }
 header p { margin: 0; color: var(--muted); font-size: 15px; }
-.controls { margin-bottom: 16px; }
-select, .themes button, .locate {
+.controls { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+select, input, .btn {
   font-family: inherit;
   font-size: 15px;
   color: var(--text);
@@ -50,9 +50,14 @@ select, .themes button, .locate {
   border-radius: 14px;
   padding: 10px 12px;
 }
-select { width: 100%; margin-bottom: 10px; }
+select, input { width: 100%; }
+.search { display: flex; gap: 8px; }
+.search input { flex: 1; min-width: 0; }
+.btn { cursor: pointer; }
 .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-.themes button, .locate { cursor: pointer; border-radius: 999px; padding: 8px 14px; }
+.btn.pill, .themes button { border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.themes { display: flex; gap: 8px; }
+.themes button { font-family: inherit; font-size: 14px; color: var(--text); background: transparent; border: 2px solid var(--accent); }
 .themes button.active { background: var(--accent); color: #fff; }
 .card {
   background: var(--card);
@@ -76,6 +81,7 @@ h2 { font-size: 19px; margin: 0 0 12px; }
 .outfit li:last-child { border-bottom: none; }
 .outfit .icon { width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
 .tip { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--accent-soft); font-size: 15px; line-height: 1.5; }
+.msg { color: var(--muted); font-size: 14px; text-align: center; margin: 6px 0 0; min-height: 18px; }
 footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8px; }
 </style>
 </head>
@@ -87,21 +93,22 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8
   </header>
 
   <div class="controls">
-    <select id="citySelect" onchange="setCity(this.value)">
-      <option value="ירושלים">ירושלים</option>
-      <option value="תל אביב">תל אביב</option>
-    </select>
+    <select id="citySelect" onchange="onSelectChange(this.value)"></select>
+    <div class="search">
+      <input id="searchInput" type="text" placeholder="הקלידו שם עיר או יישוב" onkeydown="if(event.key==='Enter')searchCity()">
+      <button class="btn" onclick="searchCity()">חפש</button>
+    </div>
     <div class="row">
-      <button class="locate" onclick="locateMe()">📍 זהה לפי מיקום</button>
       <div class="themes">
-        <button id="btn-pink" class="active" onclick="setTheme('pink')">ורוד בייבי</button>
+        <button id="btn-pink" onclick="setTheme('pink')">ורוד בייבי</button>
         <button id="btn-blue" onclick="setTheme('blue')">כחול כהה</button>
       </div>
     </div>
+    <p class="msg" id="msg"></p>
   </div>
 
   <section class="card now">
-    <div class="city" id="city"></div>
+    <div class="city" id="city">טוען...</div>
     <div class="temp" id="temp"></div>
     <div class="condition" id="condition"></div>
     <div class="hilo" id="hilo"></div>
@@ -123,72 +130,189 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8
     <div class="tip" id="tip"></div>
   </section>
 
-  <footer>הנתונים הם צילום מצב של מזג האוויר ואינם מתעדכנים אוטומטית</footer>
+  <footer>הנתונים מגיעים בזמן אמת משירות Open-Meteo</footer>
 </div>
 
 <script>
-// נתוני מזג האוויר (צילום מצב). לשינוי: ערכו את הערכים או הוסיפו עיר חדשה.
-// lat/lon משמשים לזיהוי העיר הקרובה לפי מיקום.
-const CITIES = {
-  "ירושלים": {
-    city: "ירושלים", lat: 31.77, lon: 35.21,
-    temp: 29, feels: 29, high: 31, low: 19, condition: "בהיר",
-    rainChance: 0, windKmh: 14, humidity: 47, uv: "נמוך", sunset: "19:46"
-  },
-  "תל אביב": {
-    city: "תל אביב", lat: 32.08, lon: 34.78,
-    temp: 31, feels: 34, high: 31, low: 24, condition: "בהיר",
-    rainChance: 0, windKmh: 11, humidity: 55, uv: "מאוד גבוה", sunset: "19:47"
-  }
-};
-const STORAGE_KEY = "outfit-app-city";
+// ערים עיקריות לתפריט. אפשר להוסיף כאן עוד ערים עם קואורדינטות.
+const CITIES = [
+  { name: "ירושלים", lat: 31.77, lon: 35.21 },
+  { name: "תל אביב", lat: 32.08, lon: 34.78 },
+  { name: "חיפה", lat: 32.79, lon: 34.99 },
+  { name: "באר שבע", lat: 31.25, lon: 34.79 },
+  { name: "אילת", lat: 29.56, lon: 34.95 },
+  { name: "נתניה", lat: 32.33, lon: 34.86 },
+  { name: "ראשון לציון", lat: 31.97, lon: 34.80 },
+  { name: "אשדוד", lat: 31.80, lon: 34.66 },
+  { name: "אשקלון", lat: 31.67, lon: 34.57 },
+  { name: "הרצליה", lat: 32.16, lon: 34.84 },
+  { name: "פתח תקווה", lat: 32.09, lon: 34.89 },
+  { name: "רמת גן", lat: 32.07, lon: 34.82 },
+  { name: "בת ים", lat: 32.02, lon: 34.75 },
+  { name: "חולון", lat: 32.01, lon: 34.77 },
+  { name: "רחובות", lat: 31.89, lon: 34.81 },
+  { name: "כרמיאל", lat: 32.92, lon: 35.30 },
+  { name: "עפולה", lat: 32.61, lon: 35.29 },
+  { name: "טבריה", lat: 32.79, lon: 35.53 },
+  { name: "נצרת", lat: 32.70, lon: 35.30 },
+  { name: "צפת", lat: 32.96, lon: 35.50 },
+  { name: "נהריה", lat: 33.00, lon: 35.10 },
+  { name: "עכו", lat: 32.92, lon: 35.07 },
+  { name: "חדרה", lat: 32.44, lon: 34.92 },
+  { name: "בית שאן", lat: 32.50, lon: 35.50 },
+  { name: "קריית שמונה", lat: 33.21, lon: 35.57 },
+  { name: "שדרות", lat: 31.52, lon: 34.60 },
+  { name: "מודיעין", lat: 31.90, lon: 35.01 },
+  { name: "דימונה", lat: 31.07, lon: 35.03 },
+  { name: "עריאל", lat: 32.10, lon: 35.17 },
+  { name: "מעלה אדומים", lat: 31.78, lon: 35.30 }
+];
+
+const GEO_VALUE = "__geo__";
+const STORAGE_KEY = "outfit-app-location";
 const THEME_KEY = "outfit-app-theme";
-let WEATHER = CITIES["ירושלים"];
 
-function setCity(name, save = true) {
-  if (!CITIES[name]) return;
-  WEATHER = CITIES[name];
-  document.getElementById("citySelect").value = name;
-  if (save) {
-    try { localStorage.setItem(STORAGE_KEY, name); } catch (e) {}
-  }
-  render();
-}
+let current = null; // {name, lat, lon, geo}
 
-function distance(lat1, lon1, lat2, lon2) {
-  const dLat = lat1 - lat2, dLon = lon1 - lon2;
-  return Math.sqrt(dLat * dLat + dLon * dLon);
-}
-
-function locateMe() {
-  if (!navigator.geolocation) {
-    alert("המכשיר לא תומך בזיהוי מיקום. אפשר לבחור עיר ידנית.");
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      const { latitude, longitude } = pos.coords;
-      let nearest = null, best = Infinity;
-      for (const name in CITIES) {
-        const d = distance(latitude, longitude, CITIES[name].lat, CITIES[name].lon);
-        if (d < best) { best = d; nearest = name; }
-      }
-      setCity(nearest, true);
-    },
-    () => alert("לא הצלחתי לזהות את המיקום. אפשר לבחור עיר ידנית."),
-    { timeout: 8000 }
-  );
-}
-
+// ---------- תצוגה ----------
 function setTheme(name, save = true) {
   document.body.classList.toggle("blue", name === "blue");
   document.getElementById("btn-pink").classList.toggle("active", name === "pink");
   document.getElementById("btn-blue").classList.toggle("active", name === "blue");
-  if (save) {
-    try { localStorage.setItem(THEME_KEY, name); } catch (e) {}
+  if (save) try { localStorage.setItem(THEME_KEY, name); } catch (e) {}
+}
+
+function setMsg(text) {
+  document.getElementById("msg").textContent = text || "";
+}
+
+function populateSelect() {
+  const sel = document.getElementById("citySelect");
+  sel.innerHTML = "";
+  const geoOpt = new Option("📍 המיקום שלי", GEO_VALUE);
+  sel.add(geoOpt);
+  CITIES.forEach(c => sel.add(new Option(c.name, c.name)));
+}
+
+function onSelectChange(value) {
+  if (value === GEO_VALUE) return useMyLocation();
+  const c = CITIES.find(x => x.name === value);
+  if (c) loadCity(c);
+}
+
+// ---------- Open-Meteo ----------
+function describeWeather(code) {
+  if (code === 0) return { text: "בהיר", icon: "☀️" };
+  if (code <= 2) return { text: "מעונן חלקית", icon: "⛅" };
+  if (code === 3) return { text: "מעונן", icon: "☁️" };
+  if (code === 45 || code === 48) return { text: "ערפל", icon: "🌫️" };
+  if (code >= 51 && code <= 67) return { text: "גשם", icon: "🌧️" };
+  if (code >= 71 && code <= 77) return { text: "שלג", icon: "❄️" };
+  if (code >= 80 && code <= 82) return { text: "ממטרים", icon: "🌦️" };
+  if (code >= 95) return { text: "סופת רעמים", icon: "⛈️" };
+  return { text: "מעונן חלקית", icon: "⛅" };
+}
+
+async function fetchWeather(place) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${place.lat}&longitude=${place.lon}` +
+    `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code` +
+    `&daily=temperature_2m_max,temperature_2m_min,sunset,uv_index_max,precipitation_probability_max` +
+    `&timezone=Asia%2FJerusalem&wind_speed_unit=kmh`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("weather");
+  const d = await res.json();
+  const desc = describeWeather(d.current.weather_code);
+  return {
+    city: place.name,
+    temp: Math.round(d.current.temperature_2m),
+    feels: Math.round(d.current.apparent_temperature),
+    high: Math.round(d.daily.temperature_2m_max[0]),
+    low: Math.round(d.daily.temperature_2m_min[0]),
+    humidity: Math.round(d.current.relative_humidity_2m),
+    windKmh: Math.round(d.current.wind_speed_10m),
+    rainChance: d.daily.precipitation_probability_max[0] || 0,
+    uvIndex: d.daily.uv_index_max[0] || 0,
+    sunset: d.daily.sunset[0].slice(11, 16),
+    condition: desc.text,
+    icon: desc.icon
+  };
+}
+
+async function loadCity(place) {
+  current = place;
+  document.getElementById("city").textContent = place.name;
+  document.getElementById("summary").textContent = "טוען נתונים...";
+  setMsg("");
+  try {
+    const w = await fetchWeather(place);
+    render(w);
+    saveLocation(place);
+    // מוסיפים לתפריט אם העיר לא נמצאת שם
+    const sel = document.getElementById("citySelect");
+    if (!place.geo && !CITIES.find(c => c.name === place.name) && ![...sel.options].some(o => o.value === place.name)) {
+      sel.add(new Option(place.name, place.name));
+    }
+    if (!place.geo) sel.value = place.name;
+    else sel.value = GEO_VALUE;
+  } catch (e) {
+    document.getElementById("summary").textContent = "";
+    setMsg("לא הצלחתי לטעון את מזג האוויר. נסו שוב מאוחר יותר.");
   }
 }
 
+// ---------- חיפוש עיר ----------
+async function searchCity() {
+  const q = document.getElementById("searchInput").value.trim();
+  if (!q) return;
+  setMsg("מחפש...");
+  try {
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=he&country=IL`;
+    const res = await fetch(url);
+    const g = await res.json();
+    if (!g.results || !g.results.length) {
+      setMsg("לא מצאתי עיר בשם הזה. נסו איות אחר.");
+      return;
+    }
+    const r = g.results[0];
+    document.getElementById("searchInput").value = "";
+    loadCity({ name: r.name, lat: r.latitude, lon: r.longitude });
+  } catch (e) {
+    setMsg("החיפוש לא הצליח. בדקו את החיבור לאינטרנט.");
+  }
+}
+
+// ---------- מיקום ----------
+function useMyLocation() {
+  if (!navigator.geolocation) {
+    setMsg("המכשיר לא תומך בזיהוי מיקום. אפשר לבחור עיר ידנית.");
+    return;
+  }
+  setMsg("מזהה את המיקום שלך...");
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      setMsg("");
+      loadCity({ name: "המיקום שלי", lat: pos.coords.latitude, lon: pos.coords.longitude, geo: true });
+    },
+    () => setMsg("לא הצלחתי לזהות את המיקום. אפשר לבחור עיר ידנית."),
+    { timeout: 8000 }
+  );
+}
+
+// ---------- שמירה ----------
+function saveLocation(place) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: place.name, lat: place.lat, lon: place.lon, geo: !!place.geo }));
+  } catch (e) {}
+}
+
+function readSavedLocation() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+// ---------- המלצות לבוש ----------
 function buildOutfit(w) {
   const items = [];
   const f = w.feels;
@@ -209,7 +333,7 @@ function buildOutfit(w) {
 
   if (w.rainChance >= 40) items.push({ icon: "☔", text: "מטריה או מעיל עמיד למים" });
   if (w.windKmh >= 20) items.push({ icon: "🌬️", text: "משהו שלא יתעופף: מעיל קל או שכבה נוספת" });
-  if (w.uv === "גבוה" || w.uv === "מאוד גבוה") {
+  if (w.uvIndex >= 6) {
     items.push({ icon: "🧴", text: "קרם הגנה ומשקפי שמש, השמש חזקה" });
   } else {
     items.push({ icon: "🕶️", text: "משקפי שמש, תמיד נחמדים גם כשלא חם מדי" });
@@ -232,11 +356,10 @@ function buildTip(w) {
   return "טיפ: שכבות זה הסוד. אפשר להוריד או להוסיף לפי הצורך.";
 }
 
-function render() {
-  const w = WEATHER;
+function render(w) {
   document.getElementById("city").textContent = w.city;
   document.getElementById("temp").textContent = `${w.temp}°`;
-  document.getElementById("condition").textContent = w.condition;
+  document.getElementById("condition").textContent = `${w.icon} ${w.condition}`;
   document.getElementById("hilo").textContent = `היום: ${w.high}° / ${w.low}°`;
   document.getElementById("feels").textContent = `${w.feels}°`;
   document.getElementById("wind").textContent = `${w.windKmh} קמ"ש`;
@@ -254,15 +377,21 @@ function render() {
   document.getElementById("tip").textContent = buildTip(w);
 }
 
-// טעינה: קודם בודקים אם יש בחירה שמורה, ואם לא, הדף נשאר על ירושלים.
+// ---------- התחלה ----------
 (function init() {
-  let savedCity = null, savedTheme = null;
-  try {
-    savedCity = localStorage.getItem(STORAGE_KEY);
-    savedTheme = localStorage.getItem(THEME_KEY);
-  } catch (e) {}
-  if (savedTheme) setTheme(savedTheme, false);
-  setCity(savedCity && CITIES[savedCity] ? savedCity : "ירושלים", false);
+  populateSelect();
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem(THEME_KEY); } catch (e) {}
+  setTheme(savedTheme || "pink", false);
+
+  const saved = readSavedLocation();
+  if (saved && saved.geo) {
+    useMyLocation();
+  } else if (saved) {
+    loadCity(saved);
+  } else {
+    loadCity(CITIES[0]);
+  }
 })();
 </script>
 </body>
