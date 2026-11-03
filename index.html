@@ -186,4 +186,390 @@ const T = {
       mild2: "נעליים נוחות, לא צריך יותר מזה",
       cool1: "ז'קט קל או סוודר דק, כי בערב זה מתקרר",
       cool2: "ג'ינס או מכנסיים ארוכים",
-      cold1:
+      cold1: "מעיל חם, סוודר וצעיף",
+      cold2: "נעליים סגורות ושמורות מקור",
+      rain: "מטריה או מעיל עמיד למים",
+      wind: "משהו שלא יתעופף: מעיל קל או שכבה נוספת",
+      sun: "קרם הגנה ומשקפי שמש, השמש חזקה",
+      shades: "משקפי שמש, תמיד נחמדים גם כשלא חם מדי"
+    }
+  },
+  en: {
+    title: "What to wear today? ✨",
+    subtitle: "Here's my take on being outside today",
+    searchPh: "Type a city or town name",
+    searchBtn: "Search",
+    geoOpt: "📍 My location",
+    pink: "Baby pink",
+    blue: "Dark blue",
+    feels: "Feels like",
+    wind: "Wind",
+    humidity: "Humidity",
+    summaryTitle: "In short",
+    outfitTitle: "What to wear",
+    footer: "Live data from Open-Meteo",
+    loading: "Loading data...",
+    noResult: "I couldn't find a city with that name. Try another spelling.",
+    searchFail: "Search failed. Check your internet connection.",
+    locating: "Finding your location...",
+    noGeo: "This device doesn't support location. Pick a city manually.",
+    geoFail: "Couldn't find your location. Pick a city manually.",
+    loadFail: "Couldn't load the weather. Try again later.",
+    myLocation: "My location",
+    windUnit: "km/h",
+    todayHL: (h, l) => `Today: ${h}° / ${l}°`,
+    cond: { clear: "Clear", partly: "Partly cloudy", cloudy: "Cloudy", fog: "Fog", rain: "Rain", snow: "Snow", showers: "Showers", storm: "Thunderstorm" },
+    summary: (w, c) => {
+      let s = `Right now it's ${w.temp}° and ${c.toLowerCase()}. Today goes up to ${w.high}°, and tonight drops to ${w.low}°. `;
+      if (w.feels >= 27) s += "It's a hot one, drink lots of water and look for shade. ";
+      else if (w.feels >= 22) s += "A nice day to be outside. ";
+      else s += "It's cooler, so bring an extra layer. ";
+      return s + `Sunset is at ${w.sunset}, so there's time to enjoy the air.`;
+    },
+    tipHot: "Tip: keep a water bottle in your bag, it really helps on a day like this.",
+    tipMild: "Tip: bring a light layer for the evening, it gets chilly at night.",
+    tipCool: "Tip: layers are the secret. Take things off or add them as needed.",
+    items: {
+      hot1: "A light breathable tee or top, shorts or a loose skirt",
+      hot2: "Sandals or flip-flops so your feet can breathe",
+      mild1: "A light shirt with sleeves, and long pants or a dress",
+      mild2: "Comfortable shoes, nothing more needed",
+      cool1: "A light jacket or thin sweater, it gets cooler in the evening",
+      cool2: "Jeans or long pants",
+      cold1: "A warm coat, a sweater and a scarf",
+      cold2: "Closed shoes to keep your feet warm",
+      rain: "An umbrella or a waterproof jacket",
+      wind: "Something that won't blow away: a light jacket or an extra layer",
+      sun: "Sunscreen and sunglasses, the sun is strong",
+      shades: "Sunglasses, always a good idea even when it's not too hot"
+    }
+  },
+  ru: {
+    title: "Что надеть сегодня? ✨",
+    subtitle: "Вот что я думаю о сегодняшнем дне на улице",
+    searchPh: "Введите название города или населённого пункта",
+    searchBtn: "Найти",
+    geoOpt: "📍 Моё местоположение",
+    pink: "Нежно-розовый",
+    blue: "Тёмно-синий",
+    feels: "Ощущается",
+    wind: "Ветер",
+    humidity: "Влажность",
+    summaryTitle: "Коротко",
+    outfitTitle: "Что надеть",
+    footer: "Данные в реальном времени от Open-Meteo",
+    loading: "Загружаю данные...",
+    noResult: "Не нашёл такой город. Попробуйте другое написание.",
+    searchFail: "Поиск не удался. Проверьте подключение к интернету.",
+    locating: "Определяю ваше местоположение...",
+    noGeo: "Устройство не поддерживает определение местоположения. Выберите город вручную.",
+    geoFail: "Не удалось определить местоположение. Выберите город вручную.",
+    loadFail: "Не удалось загрузить погоду. Попробуйте позже.",
+    myLocation: "Моё местоположение",
+    windUnit: "км/ч",
+    todayHL: (h, l) => `Сегодня: ${h}° / ${l}°`,
+    cond: { clear: "ясно", partly: "переменная облачность", cloudy: "облачно", fog: "туман", rain: "дождь", snow: "снег", showers: "ливень", storm: "гроза" },
+    summary: (w, c) => {
+      let s = `Сейчас ${w.temp}°, ${c}. Сегодня будет до ${w.high}°, ночью до ${w.low}°. `;
+      if (w.feels >= 27) s += "Жарко, пейте много воды и ищите тень. ";
+      else if (w.feels >= 22) s += "Приятный день, чтобы выйти на улицу. ";
+      else s += "Прохладнее, лучше взять ещё один слой. ";
+      return s + `Закат в ${w.sunset}, так что есть время подышать воздухом.`;
+    },
+    tipHot: "Совет: положите в сумку бутылку воды, в такой день это спасает.",
+    tipMild: "Совет: возьмите лёгкий слой на вечер, ночью становится прохладно.",
+    tipCool: "Совет: секрет в слоях. Можно снимать или добавлять по необходимости.",
+    items: {
+      hot1: "Футболка или топ из дышащей ткани, шорты или юбка свободного кроя",
+      hot2: "Сандалии или шлёпанцы, пусть ногам будет легко",
+      mild1: "Лёгкая рубашка с рукавами и длинные брюки или платье",
+      mild2: "Удобная обувь, больше ничего не нужно",
+      cool1: "Лёгкая куртка или тонкий свитер, вечером похолодает",
+      cool2: "Джинсы или длинные брюки",
+      cold1: "Тёплое пальто, свитер и шарф",
+      cold2: "Закрытая обувь, чтобы ноги не мёрзли",
+      rain: "Зонт или водонепроницаемая куртка",
+      wind: "Что-то, что не сдует ветер: лёгкая куртка или дополнительный слой",
+      sun: "Крем от солнца и солнцезащитные очки, солнце сильное",
+      shades: "Солнцезащитные очки, всегда пригодятся"
+    }
+  }
+};
+
+// ---------- ערים ----------
+const CITIES = [
+  { names: { he: "ירושלים", en: "Jerusalem", ru: "Иерусалим" }, lat: 31.77, lon: 35.21 },
+  { names: { he: "תל אביב", en: "Tel Aviv", ru: "Тель-Авив" }, lat: 32.08, lon: 34.78 },
+  { names: { he: "חיפה", en: "Haifa", ru: "Хайфа" }, lat: 32.79, lon: 34.99 },
+  { names: { he: "באר שבע", en: "Beersheba", ru: "Беэр-Шева" }, lat: 31.25, lon: 34.79 },
+  { names: { he: "אילת", en: "Eilat", ru: "Эйлат" }, lat: 29.56, lon: 34.95 },
+  { names: { he: "נתניה", en: "Netanya", ru: "Нетания" }, lat: 32.33, lon: 34.86 },
+  { names: { he: "ראשון לציון", en: "Rishon LeZion", ru: "Ришон-ле-Цион" }, lat: 31.97, lon: 34.80 },
+  { names: { he: "אשדוד", en: "Ashdod", ru: "Ашдод" }, lat: 31.80, lon: 34.66 },
+  { names: { he: "אשקלון", en: "Ashkelon", ru: "Ашкелон" }, lat: 31.67, lon: 34.57 },
+  { names: { he: "הרצליה", en: "Herzliya", ru: "Герцлия" }, lat: 32.16, lon: 34.84 },
+  { names: { he: "פתח תקווה", en: "Petah Tikva", ru: "Петах-Тиква" }, lat: 32.09, lon: 34.89 },
+  { names: { he: "רמת גן", en: "Ramat Gan", ru: "Рамат-Ган" }, lat: 32.07, lon: 34.82 },
+  { names: { he: "בת ים", en: "Bat Yam", ru: "Бат-Ям" }, lat: 32.02, lon: 34.75 },
+  { names: { he: "חולון", en: "Holon", ru: "Холон" }, lat: 32.01, lon: 34.77 },
+  { names: { he: "רחובות", en: "Rehovot", ru: "Реховот" }, lat: 31.89, lon: 34.81 },
+  { names: { he: "כרמיאל", en: "Karmiel", ru: "Кармиэль" }, lat: 32.92, lon: 35.30 },
+  { names: { he: "עפולה", en: "Afula", ru: "Афула" }, lat: 32.61, lon: 35.29 },
+  { names: { he: "טבריה", en: "Tiberias", ru: "Тверия" }, lat: 32.79, lon: 35.53 },
+  { names: { he: "נצרת", en: "Nazareth", ru: "Назарет" }, lat: 32.70, lon: 35.30 },
+  { names: { he: "צפת", en: "Safed", ru: "Цфат" }, lat: 32.96, lon: 35.50 },
+  { names: { he: "נהריה", en: "Nahariya", ru: "Нагария" }, lat: 33.00, lon: 35.10 },
+  { names: { he: "עכו", en: "Acre", ru: "Акко" }, lat: 32.92, lon: 35.07 },
+  { names: { he: "חדרה", en: "Hadera", ru: "Хадера" }, lat: 32.44, lon: 34.92 },
+  { names: { he: "בית שאן", en: "Beit She'an", ru: "Бейт-Шеан" }, lat: 32.50, lon: 35.50 },
+  { names: { he: "קריית שמונה", en: "Kiryat Shmona", ru: "Кирьят-Шмона" }, lat: 33.21, lon: 35.57 },
+  { names: { he: "שדרות", en: "Sderot", ru: "Сдерот" }, lat: 31.52, lon: 34.60 },
+  { names: { he: "מודיעין", en: "Modiin", ru: "Модиин" }, lat: 31.90, lon: 35.01 },
+  { names: { he: "דימונה", en: "Dimona", ru: "Димона" }, lat: 31.07, lon: 35.03 },
+  { names: { he: "עריאל", en: "Ariel", ru: "Ариэль" }, lat: 32.10, lon: 35.17 },
+  { names: { he: "מעלה אדומים", en: "Maale Adumim", ru: "Маале-Адумим" }, lat: 31.78, lon: 35.30 }
+];
+
+const STORAGE = { loc: "outfit-app-location", theme: "outfit-app-theme", lang: "outfit-app-lang" };
+let lang = "he";
+let theme = "pink";
+let current = null;   // { custom?: string, idx?: number, geo?: boolean, lat, lon }
+let lastRaw = null;   // נתונים גולמיים, כדי לתרגם מחדש בלי לקרוא שוב לשירות
+
+const t = () => T[lang];
+
+function cityName(p) {
+  if (p.geo) return t().myLocation;
+  if (p.idx !== undefined) return CITIES[p.idx].names[lang];
+  return p.custom;
+}
+
+// ---------- ממשק ----------
+function applyStaticText() {
+  const ui = t();
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+  document.title = ui.title;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = ui[el.dataset.i18n]; });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = ui[el.dataset.i18nPh]; });
+  document.getElementById("langSelect").value = lang;
+  populateSelect();
+}
+
+function populateSelect() {
+  const sel = document.getElementById("citySelect");
+  const keep = sel.value;
+  sel.innerHTML = "";
+  sel.add(new Option(t().geoOpt, "geo"));
+  CITIES.forEach((c, i) => sel.add(new Option(c.names[lang], String(i))));
+  if (current) {
+    if (current.geo) sel.value = "geo";
+    else if (current.idx !== undefined) sel.value = String(current.idx);
+    else sel.value = keep;
+  }
+}
+
+function setLang(value, save = true) {
+  lang = T[value] ? value : "he";
+  if (save) try { localStorage.setItem(STORAGE.lang, lang); } catch (e) {}
+  applyStaticText();
+  if (current) document.getElementById("city").textContent = cityName(current);
+  if (lastRaw) render(lastRaw);
+}
+
+function setTheme(name, save = true) {
+  theme = name;
+  document.body.classList.toggle("blue", name === "blue");
+  document.getElementById("btn-pink").classList.toggle("active", name === "pink");
+  document.getElementById("btn-blue").classList.toggle("active", name === "blue");
+  if (save) try { localStorage.setItem(STORAGE.theme, name); } catch (e) {}
+}
+
+function setMsg(text) {
+  document.getElementById("msg").textContent = text || "";
+}
+
+function onSelectChange(value) {
+  if (value === "geo") return useMyLocation();
+  loadPlace({ idx: Number(value), lat: CITIES[value].lat, lon: CITIES[value].lon });
+}
+
+// ---------- Open-Meteo ----------
+function condKey(code) {
+  if (code === 0) return "clear";
+  if (code <= 2) return "partly";
+  if (code === 3) return "cloudy";
+  if (code === 45 || code === 48) return "fog";
+  if (code >= 51 && code <= 67) return "rain";
+  if (code >= 71 && code <= 77) return "snow";
+  if (code >= 80 && code <= 82) return "showers";
+  if (code >= 95) return "storm";
+  return "partly";
+}
+const ICONS = { clear: "☀️", partly: "⛅", cloudy: "☁️", fog: "🌫️", rain: "🌧️", snow: "❄️", showers: "🌦️", storm: "⛈️" };
+
+async function fetchWeather(place) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${place.lat}&longitude=${place.lon}` +
+    `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code` +
+    `&daily=temperature_2m_max,temperature_2m_min,sunset,uv_index_max,precipitation_probability_max` +
+    `&timezone=Asia%2FJerusalem&wind_speed_unit=kmh`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("weather");
+  const d = await res.json();
+  return {
+    temp: Math.round(d.current.temperature_2m),
+    feels: Math.round(d.current.apparent_temperature),
+    high: Math.round(d.daily.temperature_2m_max[0]),
+    low: Math.round(d.daily.temperature_2m_min[0]),
+    humidity: Math.round(d.current.relative_humidity_2m),
+    windKmh: Math.round(d.current.wind_speed_10m),
+    rainChance: d.daily.precipitation_probability_max[0] || 0,
+    uvIndex: d.daily.uv_index_max[0] || 0,
+    sunset: d.daily.sunset[0].slice(11, 16),
+    code: d.current.weather_code
+  };
+}
+
+async function loadPlace(place) {
+  current = place;
+  lastRaw = null;
+  document.getElementById("city").textContent = cityName(place);
+  document.getElementById("summary").textContent = t().loading;
+  setMsg("");
+  try {
+    lastRaw = await fetchWeather(place);
+    render(lastRaw);
+    saveLocation(place);
+    populateSelect();
+  } catch (e) {
+    document.getElementById("summary").textContent = "";
+    setMsg(t().loadFail);
+  }
+}
+
+// ---------- חיפוש ----------
+async function searchCity() {
+  const q = document.getElementById("searchInput").value.trim();
+  if (!q) return;
+  setMsg(t().loading);
+  try {
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=${lang}&country=IL`;
+    const g = await (await fetch(url)).json();
+    if (!g.results || !g.results.length) {
+      setMsg(t().noResult);
+      return;
+    }
+    const r = g.results[0];
+    document.getElementById("searchInput").value = "";
+    loadPlace({ custom: r.name, lat: r.latitude, lon: r.longitude });
+  } catch (e) {
+    setMsg(t().searchFail);
+  }
+}
+
+// ---------- מיקום ----------
+function useMyLocation() {
+  if (!navigator.geolocation) {
+    setMsg(t().noGeo);
+    populateSelect();
+    return;
+  }
+  setMsg(t().locating);
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      setMsg("");
+      loadPlace({ geo: true, lat: pos.coords.latitude, lon: pos.coords.longitude });
+    },
+    () => { setMsg(t().geoFail); populateSelect(); },
+    { timeout: 8000 }
+  );
+}
+
+// ---------- שמירה ----------
+function saveLocation(p) {
+  try { localStorage.setItem(STORAGE.loc, JSON.stringify(p)); } catch (e) {}
+}
+function readSavedLocation() {
+  try { return JSON.parse(localStorage.getItem(STORAGE.loc)); } catch (e) { return null; }
+}
+
+// ---------- לבוש ----------
+function buildOutfit(w) {
+  const I = t().items;
+  const items = [];
+  const f = w.feels;
+
+  if (f >= 27) {
+    items.push({ icon: "👚", text: I.hot1 });
+    items.push({ icon: "🩴", text: I.hot2 });
+  } else if (f >= 22) {
+    items.push({ icon: "👕", text: I.mild1 });
+    items.push({ icon: "👟", text: I.mild2 });
+  } else if (f >= 16) {
+    items.push({ icon: "🧥", text: I.cool1 });
+    items.push({ icon: "👖", text: I.cool2 });
+  } else {
+    items.push({ icon: "🧣", text: I.cold1 });
+    items.push({ icon: "👢", text: I.cold2 });
+  }
+
+  if (w.rainChance >= 40) items.push({ icon: "☔", text: I.rain });
+  if (w.windKmh >= 20) items.push({ icon: "🌬️", text: I.wind });
+  if (w.uvIndex >= 6) items.push({ icon: "🧴", text: I.sun });
+  else items.push({ icon: "🕶️", text: I.shades });
+  return items;
+}
+
+function buildTip(w) {
+  const ui = t();
+  if (w.feels >= 27) return ui.tipHot;
+  if (w.feels >= 22) return ui.tipMild;
+  return ui.tipCool;
+}
+
+// ---------- רינדור ----------
+function render(w) {
+  const ui = t();
+  const key = condKey(w.code);
+  const condText = ui.cond[key];
+
+  document.getElementById("city").textContent = cityName(current);
+  document.getElementById("temp").textContent = `${w.temp}°`;
+  document.getElementById("condition").textContent = `${ICONS[key]} ${condText}`;
+  document.getElementById("hilo").textContent = ui.todayHL(w.high, w.low);
+  document.getElementById("feels").textContent = `${w.feels}°`;
+  document.getElementById("wind").textContent = `${w.windKmh} ${ui.windUnit}`;
+  document.getElementById("humidity").textContent = `${w.humidity}%`;
+  document.getElementById("summary").textContent = ui.summary(w, condText);
+
+  const list = document.getElementById("outfit");
+  list.innerHTML = "";
+  buildOutfit(w).forEach(item => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="icon">${item.icon}</span><span></span>`;
+    li.querySelector("span:last-child").textContent = item.text;
+    list.appendChild(li);
+  });
+  document.getElementById("tip").textContent = buildTip(w);
+}
+
+// ---------- התחלה ----------
+(function init() {
+  let savedLang = "he", savedTheme = "pink";
+  try {
+    savedLang = localStorage.getItem(STORAGE.lang) || "he";
+    savedTheme = localStorage.getItem(STORAGE.theme) || "pink";
+  } catch (e) {}
+  lang = T[savedLang] ? savedLang : "he";
+  applyStaticText();
+  setTheme(savedTheme, false);
+
+  const saved = readSavedLocation();
+  if (saved && saved.geo) useMyLocation();
+  else if (saved && saved.custom) loadPlace(saved);
+  else if (saved && saved.idx !== undefined && CITIES[saved.idx]) loadPlace(saved);
+  else loadPlace({ idx: 0, lat: CITIES[0].lat, lon: CITIES[0].lon });
+})();
+</script>
+</body>
+</html>
