@@ -2,98 +2,64 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>What to wear today?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outfit</title>
 <style>
 :root {
-  --bg: #ffe6f4;
-  --card: #fff8fc;
-  --accent: #ff7fbf;
-  --accent-soft: #ffd3eb;
-  --text: #7a2a5c;
-  --muted: #c0699c;
-  --shadow: 0 10px 30px rgba(255, 127, 191, 0.28);
-  --radius: 22px;
+  --bg: #ffe6f4; --card: #fff8fc; --accent: #ff7fbf; --accent-soft: #ffd3eb;
+  --text: #7a2a5c; --muted: #c0699c; --shadow: 0 10px 30px rgba(255,127,191,.28);
 }
 body.blue {
-  --bg: #0b1d3a;
-  --card: #132a4f;
-  --accent: #4f8cd9;
-  --accent-soft: #1f3d6b;
-  --text: #e8eefc;
-  --muted: #9fb3d6;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --bg: #0b1d3a; --card: #132a4f; --accent: #4f8cd9; --accent-soft: #1f3d6b;
+  --text: #e8eefc; --muted: #9fb3d6; --shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 * { box-sizing: border-box; }
 body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: "Heebo", "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  display: flex;
-  justify-content: center;
-  padding: 24px 16px;
-  transition: background 0.3s, color 0.3s;
+  margin: 0; min-height: 100vh; padding: 24px 16px;
+  font-family: Arial, sans-serif; background: var(--bg); color: var(--text);
+  display: flex; justify-content: center;
 }
 .app { width: 100%; max-width: 420px; }
-header { text-align: center; margin-bottom: 18px; }
-header h1 { margin: 0 0 6px; font-size: 26px; }
-header p { margin: 0; color: var(--muted); font-size: 15px; }
-.controls { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+h1 { margin: 0 0 6px; font-size: 26px; text-align: center; }
+.sub { margin: 0 0 18px; color: var(--muted); text-align: center; font-size: 15px; }
+.controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
 select, input, .btn {
-  font-family: inherit;
-  font-size: 15px;
-  color: var(--text);
-  background: var(--card);
-  border: 2px solid var(--accent);
-  border-radius: 14px;
-  padding: 10px 12px;
+  font-family: inherit; font-size: 15px; color: var(--text); background: var(--card);
+  border: 2px solid var(--accent); border-radius: 14px; padding: 10px 12px; width: 100%;
 }
-select, input { width: 100%; }
 .search { display: flex; gap: 8px; }
-.search input { flex: 1; min-width: 0; }
-.btn { cursor: pointer; }
-.row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-.themes { display: flex; gap: 8px; }
+.search input { flex: 1; min-width: 0; width: auto; }
+.search .btn { width: auto; cursor: pointer; }
+.themes { display: flex; gap: 8px; justify-content: center; }
 .themes button {
-  font-family: inherit; font-size: 14px; color: var(--text);
-  background: transparent; border: 2px solid var(--accent);
-  border-radius: 999px; padding: 8px 14px; cursor: pointer;
+  font-family: inherit; font-size: 14px; color: var(--text); background: transparent;
+  border: 2px solid var(--accent); border-radius: 999px; padding: 8px 14px; cursor: pointer;
 }
 .themes button.active { background: var(--accent); color: #fff; }
-.card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 22px;
-  margin-bottom: 16px;
-}
+.msg { color: var(--muted); font-size: 14px; text-align: center; min-height: 18px; margin: 0; }
+.card { background: var(--card); border-radius: 22px; box-shadow: var(--shadow); padding: 22px; margin-bottom: 16px; }
 .now { text-align: center; }
-.city { color: var(--muted); font-size: 15px; }
-.temp { font-size: 64px; font-weight: 700; margin: 6px 0; color: var(--accent); }
-.condition { font-size: 18px; margin-bottom: 4px; }
-.hilo { color: var(--muted); font-size: 15px; }
+.place { color: var(--muted); font-size: 15px; }
+.temp { font-size: 64px; font-weight: 700; color: var(--accent); margin: 6px 0; }
+.cond { font-size: 18px; }
+.hilo { color: var(--muted); font-size: 15px; margin-top: 4px; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
-.stat { background: var(--accent-soft); border-radius: 14px; padding: 10px 6px; text-align: center; font-size: 13px; }
+.stat { background: var(--accent-soft); border-radius: 14px; padding: 10px 6px; font-size: 13px; }
 .stat b { display: block; font-size: 17px; margin-top: 4px; }
-.summary { font-size: 17px; line-height: 1.6; margin: 0; }
 h2 { font-size: 19px; margin: 0 0 12px; }
+.summary { font-size: 17px; line-height: 1.6; margin: 0; }
 .outfit { list-style: none; padding: 0; margin: 0; }
-.outfit li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--accent-soft); font-size: 16px; }
+.outfit li { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--accent-soft); font-size: 16px; }
 .outfit li:last-child { border-bottom: none; }
-.outfit .icon { width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.icon { width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
 .tip { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--accent-soft); font-size: 15px; line-height: 1.5; }
-.msg { color: var(--muted); font-size: 14px; text-align: center; margin: 6px 0 0; min-height: 18px; }
-footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8px; }
+footer { text-align: center; color: var(--muted); font-size: 12px; }
 </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <h1 data-i18n="title"></h1>
-    <p data-i18n="subtitle"></p>
-  </header>
+  <h1 id="title"></h1>
+  <p class="sub" id="subtitle"></p>
 
   <div class="controls">
     <select id="langSelect" onchange="setLang(this.value)">
@@ -101,300 +67,216 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8
       <option value="en">English</option>
       <option value="ru">Русский</option>
     </select>
-    <select id="citySelect" onchange="onSelectChange(this.value)"></select>
+    <select id="citySelect" onchange="onCityChange(this.value)"></select>
     <div class="search">
-      <input id="searchInput" type="text" data-i18n-ph="searchPh" onkeydown="if(event.key==='Enter')searchCity()">
-      <button class="btn" data-i18n="searchBtn" onclick="searchCity()"></button>
+      <input id="searchInput" type="text" onkeydown="if(event.key==='Enter')searchCity()">
+      <button class="btn" id="searchBtn" onclick="searchCity()"></button>
     </div>
-    <div class="row">
-      <div class="themes">
-        <button id="btn-pink" data-i18n="pink" onclick="setTheme('pink')"></button>
-        <button id="btn-blue" data-i18n="blue" onclick="setTheme('blue')"></button>
-      </div>
+    <div class="themes">
+      <button id="btn-pink" onclick="setTheme('pink')"></button>
+      <button id="btn-blue" onclick="setTheme('blue')"></button>
     </div>
     <p class="msg" id="msg"></p>
   </div>
 
   <section class="card now">
-    <div class="city" id="city"></div>
-    <div class="temp" id="temp"></div>
-    <div class="condition" id="condition"></div>
+    <div class="place" id="place"></div>
+    <div class="temp" id="temp">--</div>
+    <div class="cond" id="cond"></div>
     <div class="hilo" id="hilo"></div>
     <div class="stats">
-      <div class="stat"><span data-i18n="feels"></span><b id="feels"></b></div>
-      <div class="stat"><span data-i18n="wind"></span><b id="wind"></b></div>
-      <div class="stat"><span data-i18n="humidity"></span><b id="humidity"></b></div>
+      <div class="stat"><span id="feelsL"></span><b id="feels">--</b></div>
+      <div class="stat"><span id="windL"></span><b id="wind">--</b></div>
+      <div class="stat"><span id="humL"></span><b id="hum">--</b></div>
     </div>
   </section>
 
   <section class="card">
-    <h2 data-i18n="summaryTitle"></h2>
+    <h2 id="sumT"></h2>
     <p class="summary" id="summary"></p>
   </section>
 
   <section class="card">
-    <h2 data-i18n="outfitTitle"></h2>
+    <h2 id="outT"></h2>
     <ul class="outfit" id="outfit"></ul>
     <div class="tip" id="tip"></div>
   </section>
 
-  <footer data-i18n="footer"></footer>
+  <footer id="footer"></footer>
 </div>
 
 <script>
-// ---------- תרגומים ----------
+// שגיאות בקוד יופיעו על המסך
+window.onerror = function (m) {
+  document.getElementById("msg").textContent = "שגיאה: " + m;
+};
+
 const T = {
   he: {
-    title: "מה ללבוש היום? ✨",
-    subtitle: "הנה מה שאני חושב על היום בחוץ",
-    searchPh: "הקלידו שם עיר או יישוב",
-    searchBtn: "חפש",
-    geoOpt: "📍 המיקום שלי",
-    pink: "ורוד בייבי",
-    blue: "כחול כהה",
-    feels: "מרגיש כמו",
-    wind: "רוח",
-    humidity: "לחות",
-    summaryTitle: "בקצרה",
-    outfitTitle: "מה ללבוש",
-    footer: "הנתונים מגיעים בזמן אמת משירות Open-Meteo",
-    loading: "טוען נתונים...",
-    noResult: "לא מצאתי עיר בשם הזה. נסו איות אחר.",
-    searchFail: "החיפוש לא הצליח. בדקו את החיבור לאינטרנט.",
-    locating: "מזהה את המיקום שלך...",
-    noGeo: "המכשיר לא תומך בזיהוי מיקום. אפשר לבחור עיר ידנית.",
-    geoFail: "לא הצלחתי לזהות את המיקום. אפשר לבחור עיר ידנית.",
-    loadFail: "לא הצלחתי לטעון את מזג האוויר. נסו שוב מאוחר יותר.",
-    myLocation: "המיקום שלי",
-    windUnit: "קמ\"ש",
-    todayHL: (h, l) => `היום: ${h}° / ${l}°`,
-    cond: { clear: "בהיר", partly: "מעונן חלקית", cloudy: "מעונן", fog: "ערפל", rain: "גשם", snow: "שלג", showers: "ממטרים", storm: "סופת רעמים" },
-    summary: (w, c) => {
-      let s = `עכשיו ${w.temp}° ו${c}. היום יגיע עד ${w.high}°, ובלילה ירד עד ${w.low}°. `;
-      if (w.feels >= 27) s += "יום חם, תשתו הרבה מים ותחפשו צל. ";
-      else if (w.feels >= 22) s += "יום נעים ונוח לצאת החוצה. ";
-      else s += "אוויר קריר יותר, כדאי שכבה נוספת. ";
-      return s + `השקיעה ב-${w.sunset}, אז יש זמן לנשום קצת אוויר.`;
-    },
-    tipHot: "טיפ: שמרו בתיק בקבוק מים, ביום כזה זה מציל.",
-    tipMild: "טיפ: לקחו שכבה קלה לערב, כי הלילה יורד הרבה.",
-    tipCool: "טיפ: שכבות זה הסוד. אפשר להוריד או להוסיף לפי הצורך.",
+    title: "מה ללבוש היום? ✨", subtitle: "הנה מה שאני חושב על היום בחוץ",
+    ph: "הקלידו שם עיר", search: "חפש", pink: "ורוד בייבי", blue: "כחול כהה",
+    feels: "מרגיש כמו", wind: "רוח", hum: "לחות", sumT: "בקצרה", outT: "מה ללבוש",
+    footer: "נתונים בזמן אמת משירות Open-Meteo", geoOpt: "📍 המיקום שלי", myLoc: "המיקום שלי",
+    loading: "טוען...", noRes: "לא מצאתי עיר בשם הזה", fail: "לא הצלחתי לטעון את הנתונים",
+    geoFail: "לא הצלחתי לזהות את המיקום", today: "היום", night: "בלילה", sunset: "שקיעה",
+    adv: { hot: "יום חם, תשתו הרבה מים.", mild: "יום נעים לצאת החוצה.", cool: "קריר יותר, כדאי שכבה נוספת." },
+    tips: { hot: "טיפ: בקבוק מים בתיק, ביום כזה זה מציל.", mild: "טיפ: שכבה קלה לערב.", cool: "טיפ: שכבות זה הסוד." },
     items: {
-      hot1: "טי-שירט או טופ קל מבד נושם, שורטס או חצאית באורך נוח",
-      hot2: "סנדלים או כפכפים, מה שנותן לרגליים לנשום",
-      mild1: "חולצה קלה עם שרוולים, ומכנסיים ארוכים או שמלה",
-      mild2: "נעליים נוחות, לא צריך יותר מזה",
-      cool1: "ז'קט קל או סוודר דק, כי בערב זה מתקרר",
-      cool2: "ג'ינס או מכנסיים ארוכים",
-      cold1: "מעיל חם, סוודר וצעיף",
-      cold2: "נעליים סגורות ושמורות מקור",
-      rain: "מטריה או מעיל עמיד למים",
-      wind: "משהו שלא יתעופף: מעיל קל או שכבה נוספת",
-      sun: "קרם הגנה ומשקפי שמש, השמש חזקה",
-      shades: "משקפי שמש, תמיד נחמדים גם כשלא חם מדי"
-    }
+      hot: ["טי-שירט קל ושורטס או חצאית", "סנדלים או כפכפים"],
+      mild: ["חולצה קלה ומכנסיים ארוכים או שמלה", "נעליים נוחות"],
+      cool: ["ז'קט קל או סוודר דק", "ג'ינס או מכנסיים ארוכים"],
+      cold: ["מעיל חם, סוודר וצעיף", "נעליים סגורות"],
+      rain: "מטריה או מעיל עמיד למים", wind: "מעיל קל שלא יתעופף ברוח",
+      sun: "קרם הגנה ומשקפי שמש", shades: "משקפי שמש"
+    },
+    cond: { clear: "בהיר", partly: "מעונן חלקית", cloudy: "מעונן", fog: "ערפל", rain: "גשם", snow: "שלג", showers: "ממטרים", storm: "סופת רעמים" },
+    unit: "קמ\"ש"
   },
   en: {
-    title: "What to wear today? ✨",
-    subtitle: "Here's my take on being outside today",
-    searchPh: "Type a city or town name",
-    searchBtn: "Search",
-    geoOpt: "📍 My location",
-    pink: "Baby pink",
-    blue: "Dark blue",
-    feels: "Feels like",
-    wind: "Wind",
-    humidity: "Humidity",
-    summaryTitle: "In short",
-    outfitTitle: "What to wear",
-    footer: "Live data from Open-Meteo",
-    loading: "Loading data...",
-    noResult: "I couldn't find a city with that name. Try another spelling.",
-    searchFail: "Search failed. Check your internet connection.",
-    locating: "Finding your location...",
-    noGeo: "This device doesn't support location. Pick a city manually.",
-    geoFail: "Couldn't find your location. Pick a city manually.",
-    loadFail: "Couldn't load the weather. Try again later.",
-    myLocation: "My location",
-    windUnit: "km/h",
-    todayHL: (h, l) => `Today: ${h}° / ${l}°`,
-    cond: { clear: "Clear", partly: "Partly cloudy", cloudy: "Cloudy", fog: "Fog", rain: "Rain", snow: "Snow", showers: "Showers", storm: "Thunderstorm" },
-    summary: (w, c) => {
-      let s = `Right now it's ${w.temp}° and ${c.toLowerCase()}. Today goes up to ${w.high}°, and tonight drops to ${w.low}°. `;
-      if (w.feels >= 27) s += "It's a hot one, drink lots of water and look for shade. ";
-      else if (w.feels >= 22) s += "A nice day to be outside. ";
-      else s += "It's cooler, so bring an extra layer. ";
-      return s + `Sunset is at ${w.sunset}, so there's time to enjoy the air.`;
-    },
-    tipHot: "Tip: keep a water bottle in your bag, it really helps on a day like this.",
-    tipMild: "Tip: bring a light layer for the evening, it gets chilly at night.",
-    tipCool: "Tip: layers are the secret. Take things off or add them as needed.",
+    title: "What to wear today? ✨", subtitle: "My take on being outside today",
+    ph: "Type a city name", search: "Search", pink: "Baby pink", blue: "Dark blue",
+    feels: "Feels like", wind: "Wind", hum: "Humidity", sumT: "In short", outT: "What to wear",
+    footer: "Live data from Open-Meteo", geoOpt: "📍 My location", myLoc: "My location",
+    loading: "Loading...", noRes: "No city found with that name", fail: "Couldn't load the weather",
+    geoFail: "Couldn't find your location", today: "Today", night: "tonight", sunset: "Sunset",
+    adv: { hot: "It's hot, drink lots of water.", mild: "A nice day to be outside.", cool: "It's cooler, bring an extra layer." },
+    tips: { hot: "Tip: keep a water bottle in your bag.", mild: "Tip: bring a light layer for the evening.", cool: "Tip: layers are the secret." },
     items: {
-      hot1: "A light breathable tee or top, shorts or a loose skirt",
-      hot2: "Sandals or flip-flops so your feet can breathe",
-      mild1: "A light shirt with sleeves, and long pants or a dress",
-      mild2: "Comfortable shoes, nothing more needed",
-      cool1: "A light jacket or thin sweater, it gets cooler in the evening",
-      cool2: "Jeans or long pants",
-      cold1: "A warm coat, a sweater and a scarf",
-      cold2: "Closed shoes to keep your feet warm",
-      rain: "An umbrella or a waterproof jacket",
-      wind: "Something that won't blow away: a light jacket or an extra layer",
-      sun: "Sunscreen and sunglasses, the sun is strong",
-      shades: "Sunglasses, always a good idea even when it's not too hot"
-    }
+      hot: ["A light tee and shorts or a skirt", "Sandals or flip-flops"],
+      mild: ["A light shirt and long pants or a dress", "Comfortable shoes"],
+      cool: ["A light jacket or thin sweater", "Jeans or long pants"],
+      cold: ["A warm coat, sweater and scarf", "Closed shoes"],
+      rain: "An umbrella or waterproof jacket", wind: "A light jacket that won't blow away",
+      sun: "Sunscreen and sunglasses", shades: "Sunglasses"
+    },
+    cond: { clear: "Clear", partly: "Partly cloudy", cloudy: "Cloudy", fog: "Fog", rain: "Rain", snow: "Snow", showers: "Showers", storm: "Thunderstorm" },
+    unit: "km/h"
   },
   ru: {
-    title: "Что надеть сегодня? ✨",
-    subtitle: "Вот что я думаю о сегодняшнем дне на улице",
-    searchPh: "Введите название города или населённого пункта",
-    searchBtn: "Найти",
-    geoOpt: "📍 Моё местоположение",
-    pink: "Нежно-розовый",
-    blue: "Тёмно-синий",
-    feels: "Ощущается",
-    wind: "Ветер",
-    humidity: "Влажность",
-    summaryTitle: "Коротко",
-    outfitTitle: "Что надеть",
-    footer: "Данные в реальном времени от Open-Meteo",
-    loading: "Загружаю данные...",
-    noResult: "Не нашёл такой город. Попробуйте другое написание.",
-    searchFail: "Поиск не удался. Проверьте подключение к интернету.",
-    locating: "Определяю ваше местоположение...",
-    noGeo: "Устройство не поддерживает определение местоположения. Выберите город вручную.",
-    geoFail: "Не удалось определить местоположение. Выберите город вручную.",
-    loadFail: "Не удалось загрузить погоду. Попробуйте позже.",
-    myLocation: "Моё местоположение",
-    windUnit: "км/ч",
-    todayHL: (h, l) => `Сегодня: ${h}° / ${l}°`,
-    cond: { clear: "ясно", partly: "переменная облачность", cloudy: "облачно", fog: "туман", rain: "дождь", snow: "снег", showers: "ливень", storm: "гроза" },
-    summary: (w, c) => {
-      let s = `Сейчас ${w.temp}°, ${c}. Сегодня будет до ${w.high}°, ночью до ${w.low}°. `;
-      if (w.feels >= 27) s += "Жарко, пейте много воды и ищите тень. ";
-      else if (w.feels >= 22) s += "Приятный день, чтобы выйти на улицу. ";
-      else s += "Прохладнее, лучше взять ещё один слой. ";
-      return s + `Закат в ${w.sunset}, так что есть время подышать воздухом.`;
-    },
-    tipHot: "Совет: положите в сумку бутылку воды, в такой день это спасает.",
-    tipMild: "Совет: возьмите лёгкий слой на вечер, ночью становится прохладно.",
-    tipCool: "Совет: секрет в слоях. Можно снимать или добавлять по необходимости.",
+    title: "Что надеть сегодня? ✨", subtitle: "Что я думаю о сегодняшнем дне на улице",
+    ph: "Введите название города", search: "Найти", pink: "Нежно-розовый", blue: "Тёмно-синий",
+    feels: "Ощущается", wind: "Ветер", hum: "Влажность", sumT: "Коротко", outT: "Что надеть",
+    footer: "Данные в реальном времени от Open-Meteo", geoOpt: "📍 Моё местоположение", myLoc: "Моё местоположение",
+    loading: "Загружаю...", noRes: "Город не найден", fail: "Не удалось загрузить погоду",
+    geoFail: "Не удалось определить местоположение", today: "Сегодня", night: "ночью", sunset: "Закат",
+    adv: { hot: "Жарко, пейте много воды.", mild: "Приятный день, чтобы выйти на улицу.", cool: "Прохладнее, возьмите ещё один слой." },
+    tips: { hot: "Совет: бутылка воды в сумке, в такой день это спасает.", mild: "Совет: лёгкий слой на вечер.", cool: "Совет: секрет в слоях." },
     items: {
-      hot1: "Футболка или топ из дышащей ткани, шорты или юбка свободного кроя",
-      hot2: "Сандалии или шлёпанцы, пусть ногам будет легко",
-      mild1: "Лёгкая рубашка с рукавами и длинные брюки или платье",
-      mild2: "Удобная обувь, больше ничего не нужно",
-      cool1: "Лёгкая куртка или тонкий свитер, вечером похолодает",
-      cool2: "Джинсы или длинные брюки",
-      cold1: "Тёплое пальто, свитер и шарф",
-      cold2: "Закрытая обувь, чтобы ноги не мёрзли",
-      rain: "Зонт или водонепроницаемая куртка",
-      wind: "Что-то, что не сдует ветер: лёгкая куртка или дополнительный слой",
-      sun: "Крем от солнца и солнцезащитные очки, солнце сильное",
-      shades: "Солнцезащитные очки, всегда пригодятся"
-    }
+      hot: ["Лёгкая футболка и шорты или юбка", "Сандалии или шлёпанцы"],
+      mild: ["Лёгкая рубашка и длинные брюки или платье", "Удобная обувь"],
+      cool: ["Лёгкая куртка или тонкий свитер", "Джинсы или длинные брюки"],
+      cold: ["Тёплое пальто, свитер и шарф", "Закрытая обувь"],
+      rain: "Зонт или водонепроницаемая куртка", wind: "Лёгкая куртка, которую не сдует ветер",
+      sun: "Крем от солнца и солнцезащитные очки", shades: "Солнцезащитные очки"
+    },
+    cond: { clear: "ясно", partly: "переменная облачность", cloudy: "облачно", fog: "туман", rain: "дождь", snow: "снег", showers: "ливень", storm: "гроза" },
+    unit: "км/ч"
   }
 };
 
-// ---------- ערים ----------
+// שם, אנגלית, רוסית, קו רוחב, קו אורך
 const CITIES = [
-  { names: { he: "ירושלים", en: "Jerusalem", ru: "Иерусалим" }, lat: 31.77, lon: 35.21 },
-  { names: { he: "תל אביב", en: "Tel Aviv", ru: "Тель-Авив" }, lat: 32.08, lon: 34.78 },
-  { names: { he: "חיפה", en: "Haifa", ru: "Хайфа" }, lat: 32.79, lon: 34.99 },
-  { names: { he: "באר שבע", en: "Beersheba", ru: "Беэр-Шева" }, lat: 31.25, lon: 34.79 },
-  { names: { he: "אילת", en: "Eilat", ru: "Эйлат" }, lat: 29.56, lon: 34.95 },
-  { names: { he: "נתניה", en: "Netanya", ru: "Нетания" }, lat: 32.33, lon: 34.86 },
-  { names: { he: "ראשון לציון", en: "Rishon LeZion", ru: "Ришон-ле-Цион" }, lat: 31.97, lon: 34.80 },
-  { names: { he: "אשדוד", en: "Ashdod", ru: "Ашдод" }, lat: 31.80, lon: 34.66 },
-  { names: { he: "אשקלון", en: "Ashkelon", ru: "Ашкелон" }, lat: 31.67, lon: 34.57 },
-  { names: { he: "הרצליה", en: "Herzliya", ru: "Герцлия" }, lat: 32.16, lon: 34.84 },
-  { names: { he: "פתח תקווה", en: "Petah Tikva", ru: "Петах-Тиква" }, lat: 32.09, lon: 34.89 },
-  { names: { he: "רמת גן", en: "Ramat Gan", ru: "Рамат-Ган" }, lat: 32.07, lon: 34.82 },
-  { names: { he: "בת ים", en: "Bat Yam", ru: "Бат-Ям" }, lat: 32.02, lon: 34.75 },
-  { names: { he: "חולון", en: "Holon", ru: "Холон" }, lat: 32.01, lon: 34.77 },
-  { names: { he: "רחובות", en: "Rehovot", ru: "Реховот" }, lat: 31.89, lon: 34.81 },
-  { names: { he: "כרמיאל", en: "Karmiel", ru: "Кармиэль" }, lat: 32.92, lon: 35.30 },
-  { names: { he: "עפולה", en: "Afula", ru: "Афула" }, lat: 32.61, lon: 35.29 },
-  { names: { he: "טבריה", en: "Tiberias", ru: "Тверия" }, lat: 32.79, lon: 35.53 },
-  { names: { he: "נצרת", en: "Nazareth", ru: "Назарет" }, lat: 32.70, lon: 35.30 },
-  { names: { he: "צפת", en: "Safed", ru: "Цфат" }, lat: 32.96, lon: 35.50 },
-  { names: { he: "נהריה", en: "Nahariya", ru: "Нагария" }, lat: 33.00, lon: 35.10 },
-  { names: { he: "עכו", en: "Acre", ru: "Акко" }, lat: 32.92, lon: 35.07 },
-  { names: { he: "חדרה", en: "Hadera", ru: "Хадера" }, lat: 32.44, lon: 34.92 },
-  { names: { he: "בית שאן", en: "Beit She'an", ru: "Бейт-Шеан" }, lat: 32.50, lon: 35.50 },
-  { names: { he: "קריית שמונה", en: "Kiryat Shmona", ru: "Кирьят-Шмона" }, lat: 33.21, lon: 35.57 },
-  { names: { he: "שדרות", en: "Sderot", ru: "Сдерот" }, lat: 31.52, lon: 34.60 },
-  { names: { he: "מודיעין", en: "Modiin", ru: "Модиин" }, lat: 31.90, lon: 35.01 },
-  { names: { he: "דימונה", en: "Dimona", ru: "Димона" }, lat: 31.07, lon: 35.03 },
-  { names: { he: "עריאל", en: "Ariel", ru: "Ариэль" }, lat: 32.10, lon: 35.17 },
-  { names: { he: "מעלה אדומים", en: "Maale Adumim", ru: "Маале-Адумим" }, lat: 31.78, lon: 35.30 }
+  ["ירושלים", "Jerusalem", "Иерусалим", 31.77, 35.21],
+  ["תל אביב", "Tel Aviv", "Тель-Авив", 32.08, 34.78],
+  ["חיפה", "Haifa", "Хайфа", 32.79, 34.99],
+  ["באר שבע", "Beersheba", "Беэр-Шева", 31.25, 34.79],
+  ["אילת", "Eilat", "Эйлат", 29.56, 34.95],
+  ["נתניה", "Netanya", "Нетания", 32.33, 34.86],
+  ["ראשון לציון", "Rishon LeZion", "Ришон-ле-Цион", 31.97, 34.80],
+  ["אשדוד", "Ashdod", "Ашдод", 31.80, 34.66],
+  ["אשקלון", "Ashkelon", "Ашкелон", 31.67, 34.57],
+  ["הרצליה", "Herzliya", "Герцлия", 32.16, 34.84],
+  ["פתח תקווה", "Petah Tikva", "Петах-Тиква", 32.09, 34.89],
+  ["רמת גן", "Ramat Gan", "Рамат-Ган", 32.07, 34.82],
+  ["חולון", "Holon", "Холон", 32.01, 34.77],
+  ["רחובות", "Rehovot", "Реховот", 31.89, 34.81],
+  ["כרמיאל", "Karmiel", "Кармиэль", 32.92, 35.30],
+  ["עפולה", "Afula", "Афула", 32.61, 35.29],
+  ["טבריה", "Tiberias", "Тверия", 32.79, 35.53],
+  ["נצרת", "Nazareth", "Назарет", 32.70, 35.30],
+  ["צפת", "Safed", "Цфат", 32.96, 35.50],
+  ["נהריה", "Nahariya", "Нагария", 33.00, 35.10],
+  ["עכו", "Acre", "Акко", 32.92, 35.07],
+  ["חדרה", "Hadera", "Хадера", 32.44, 34.92],
+  ["בית שאן", "Beit She'an", "Бейт-Шеан", 32.50, 35.50],
+  ["קריית שמונה", "Kiryat Shmona", "Кирьят-Шмона", 33.21, 35.57],
+  ["שדרות", "Sderot", "Сдерот", 31.52, 34.60],
+  ["מודיעין", "Modiin", "Модиин", 31.90, 35.01],
+  ["דימונה", "Dimona", "Димона", 31.07, 35.03]
 ];
 
-const STORAGE = { loc: "outfit-app-location", theme: "outfit-app-theme", lang: "outfit-app-lang" };
+const LANG_COL = { he: 0, en: 1, ru: 2 };
 let lang = "he";
 let theme = "pink";
-let current = null;   // { custom?: string, idx?: number, geo?: boolean, lat, lon }
-let lastRaw = null;   // נתונים גולמיים, כדי לתרגם מחדש בלי לקרוא שוב לשירות
+let place = null; // {idx, custom, geo, lat, lon}
+let raw = null;
 
-const t = () => T[lang];
+function L() { return T[lang]; }
 
-function cityName(p) {
-  if (p.geo) return t().myLocation;
-  if (p.idx !== undefined) return CITIES[p.idx].names[lang];
-  return p.custom;
+function placeName() {
+  if (!place) return "";
+  if (place.geo) return L().myLoc;
+  if (place.idx !== null) return CITIES[place.idx][LANG_COL[lang]];
+  return place.custom;
 }
 
-// ---------- ממשק ----------
-function applyStaticText() {
-  const ui = t();
+function applyText() {
+  const u = L();
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
-  document.title = ui.title;
-  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = ui[el.dataset.i18n]; });
-  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = ui[el.dataset.i18nPh]; });
+  document.title = u.title;
+  document.getElementById("title").textContent = u.title;
+  document.getElementById("subtitle").textContent = u.subtitle;
+  document.getElementById("searchInput").placeholder = u.ph;
+  document.getElementById("searchBtn").textContent = u.search;
+  document.getElementById("btn-pink").textContent = u.pink;
+  document.getElementById("btn-blue").textContent = u.blue;
+  document.getElementById("feelsL").textContent = u.feels;
+  document.getElementById("windL").textContent = u.wind;
+  document.getElementById("humL").textContent = u.hum;
+  document.getElementById("sumT").textContent = u.sumT;
+  document.getElementById("outT").textContent = u.outT;
+  document.getElementById("footer").textContent = u.footer;
   document.getElementById("langSelect").value = lang;
-  populateSelect();
+  populateCities();
 }
 
-function populateSelect() {
+function populateCities() {
   const sel = document.getElementById("citySelect");
-  const keep = sel.value;
   sel.innerHTML = "";
-  sel.add(new Option(t().geoOpt, "geo"));
-  CITIES.forEach((c, i) => sel.add(new Option(c.names[lang], String(i))));
-  if (current) {
-    if (current.geo) sel.value = "geo";
-    else if (current.idx !== undefined) sel.value = String(current.idx);
-    else sel.value = keep;
+  sel.add(new Option(L().geoOpt, "geo"));
+  CITIES.forEach((c, i) => sel.add(new Option(c[LANG_COL[lang]], String(i))));
+  if (place) {
+    if (place.geo) sel.value = "geo";
+    else if (place.idx !== null) sel.value = String(place.idx);
+    else { sel.add(new Option(place.custom, "custom")); sel.value = "custom"; }
   }
 }
 
-function setLang(value, save = true) {
-  lang = T[value] ? value : "he";
-  if (save) try { localStorage.setItem(STORAGE.lang, lang); } catch (e) {}
-  applyStaticText();
-  if (current) document.getElementById("city").textContent = cityName(current);
-  if (lastRaw) render(lastRaw);
+function setLang(v) {
+  lang = T[v] ? v : "he";
+  try { localStorage.setItem("oa-lang", lang); } catch (e) {}
+  applyText();
+  if (raw) render();
 }
 
-function setTheme(name, save = true) {
+function setTheme(name) {
   theme = name;
   document.body.classList.toggle("blue", name === "blue");
   document.getElementById("btn-pink").classList.toggle("active", name === "pink");
   document.getElementById("btn-blue").classList.toggle("active", name === "blue");
-  if (save) try { localStorage.setItem(STORAGE.theme, name); } catch (e) {}
+  try { localStorage.setItem("oa-theme", name); } catch (e) {}
 }
 
-function setMsg(text) {
-  document.getElementById("msg").textContent = text || "";
+function setMsg(t) { document.getElementById("msg").textContent = t || ""; }
+
+function onCityChange(v) {
+  if (v === "geo") return useGeo();
+  if (v === "custom") return;
+  const c = CITIES[Number(v)];
+  load({ idx: Number(v), custom: null, geo: false, lat: c[3], lon: c[4] });
 }
 
-function onSelectChange(value) {
-  if (value === "geo") return useMyLocation();
-  loadPlace({ idx: Number(value), lat: CITIES[value].lat, lon: CITIES[value].lon });
-}
-
-// ---------- Open-Meteo ----------
 function condKey(code) {
   if (code === 0) return "clear";
   if (code <= 2) return "partly";
@@ -406,169 +288,132 @@ function condKey(code) {
   if (code >= 95) return "storm";
   return "partly";
 }
-const ICONS = { clear: "☀️", partly: "⛅", cloudy: "☁️", fog: "🌫️", rain: "🌧️", snow: "❄️", showers: "🌦️", storm: "⛈️" };
+const ICON = { clear: "☀️", partly: "⛅", cloudy: "☁️", fog: "🌫️", rain: "🌧️", snow: "❄️", showers: "🌦️", storm: "⛈️" };
 
-async function fetchWeather(place) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${place.lat}&longitude=${place.lon}` +
-    `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code` +
-    `&daily=temperature_2m_max,temperature_2m_min,sunset,uv_index_max,precipitation_probability_max` +
-    `&timezone=Asia%2FJerusalem&wind_speed_unit=kmh`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("weather");
-  const d = await res.json();
-  return {
-    temp: Math.round(d.current.temperature_2m),
-    feels: Math.round(d.current.apparent_temperature),
-    high: Math.round(d.daily.temperature_2m_max[0]),
-    low: Math.round(d.daily.temperature_2m_min[0]),
-    humidity: Math.round(d.current.relative_humidity_2m),
-    windKmh: Math.round(d.current.wind_speed_10m),
-    rainChance: d.daily.precipitation_probability_max[0] || 0,
-    uvIndex: d.daily.uv_index_max[0] || 0,
-    sunset: d.daily.sunset[0].slice(11, 16),
-    code: d.current.weather_code
-  };
-}
-
-async function loadPlace(place) {
-  current = place;
-  lastRaw = null;
-  document.getElementById("city").textContent = cityName(place);
-  document.getElementById("summary").textContent = t().loading;
-  setMsg("");
+async function load(p) {
+  place = p;
+  raw = null;
+  setMsg(L().loading);
+  document.getElementById("place").textContent = placeName();
+  populateCities();
   try {
-    lastRaw = await fetchWeather(place);
-    render(lastRaw);
-    saveLocation(place);
-    populateSelect();
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=" + p.lat + "&longitude=" + p.lon +
+      "&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code" +
+      "&daily=temperature_2m_max,temperature_2m_min,sunset,uv_index_max,precipitation_probability_max" +
+      "&timezone=Asia%2FJerusalem&wind_speed_unit=kmh";
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const d = await res.json();
+    raw = {
+      temp: Math.round(d.current.temperature_2m),
+      feels: Math.round(d.current.apparent_temperature),
+      hum: Math.round(d.current.relative_humidity_2m),
+      wind: Math.round(d.current.wind_speed_10m),
+      code: d.current.weather_code,
+      high: Math.round(d.daily.temperature_2m_max[0]),
+      low: Math.round(d.daily.temperature_2m_min[0]),
+      rain: d.daily.precipitation_probability_max[0] || 0,
+      uv: d.daily.uv_index_max[0] || 0,
+      sunset: d.daily.sunset[0].slice(11, 16)
+    };
+    setMsg("");
+    render();
+    try { localStorage.setItem("oa-place", JSON.stringify(p)); } catch (e) {}
   } catch (e) {
-    document.getElementById("summary").textContent = "";
-    setMsg(t().loadFail);
+    setMsg(L().fail + " (" + e.message + ")");
   }
 }
 
-// ---------- חיפוש ----------
 async function searchCity() {
   const q = document.getElementById("searchInput").value.trim();
   if (!q) return;
-  setMsg(t().loading);
+  setMsg(L().loading);
   try {
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=${lang}&country=IL`;
+    const url = "https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(q) +
+      "&count=1&language=" + lang + "&country=IL";
     const g = await (await fetch(url)).json();
-    if (!g.results || !g.results.length) {
-      setMsg(t().noResult);
-      return;
-    }
+    if (!g.results || !g.results.length) { setMsg(L().noRes); return; }
     const r = g.results[0];
     document.getElementById("searchInput").value = "";
-    loadPlace({ custom: r.name, lat: r.latitude, lon: r.longitude });
+    load({ idx: null, custom: r.name, geo: false, lat: r.latitude, lon: r.longitude });
   } catch (e) {
-    setMsg(t().searchFail);
+    setMsg(L().fail + " (" + e.message + ")");
   }
 }
 
-// ---------- מיקום ----------
-function useMyLocation() {
-  if (!navigator.geolocation) {
-    setMsg(t().noGeo);
-    populateSelect();
-    return;
-  }
-  setMsg(t().locating);
+function useGeo() {
+  if (!navigator.geolocation) { setMsg(L().geoFail); return; }
+  setMsg(L().loading);
   navigator.geolocation.getCurrentPosition(
-    pos => {
-      setMsg("");
-      loadPlace({ geo: true, lat: pos.coords.latitude, lon: pos.coords.longitude });
-    },
-    () => { setMsg(t().geoFail); populateSelect(); },
-    { timeout: 8000 }
+    pos => load({ idx: null, custom: null, geo: true, lat: pos.coords.latitude, lon: pos.coords.longitude }),
+    () => { setMsg(L().geoFail); populateCities(); }
   );
 }
 
-// ---------- שמירה ----------
-function saveLocation(p) {
-  try { localStorage.setItem(STORAGE.loc, JSON.stringify(p)); } catch (e) {}
-}
-function readSavedLocation() {
-  try { return JSON.parse(localStorage.getItem(STORAGE.loc)); } catch (e) { return null; }
-}
-
-// ---------- לבוש ----------
-function buildOutfit(w) {
-  const I = t().items;
-  const items = [];
+function outfitFor(w) {
+  const I = L().items;
+  const out = [];
   const f = w.feels;
-
-  if (f >= 27) {
-    items.push({ icon: "👚", text: I.hot1 });
-    items.push({ icon: "🩴", text: I.hot2 });
-  } else if (f >= 22) {
-    items.push({ icon: "👕", text: I.mild1 });
-    items.push({ icon: "👟", text: I.mild2 });
-  } else if (f >= 16) {
-    items.push({ icon: "🧥", text: I.cool1 });
-    items.push({ icon: "👖", text: I.cool2 });
-  } else {
-    items.push({ icon: "🧣", text: I.cold1 });
-    items.push({ icon: "👢", text: I.cold2 });
-  }
-
-  if (w.rainChance >= 40) items.push({ icon: "☔", text: I.rain });
-  if (w.windKmh >= 20) items.push({ icon: "🌬️", text: I.wind });
-  if (w.uvIndex >= 6) items.push({ icon: "🧴", text: I.sun });
-  else items.push({ icon: "🕶️", text: I.shades });
-  return items;
+  let cat = f >= 27 ? "hot" : f >= 22 ? "mild" : f >= 16 ? "cool" : "cold";
+  out.push({ icon: "👕", text: I[cat][0] });
+  out.push({ icon: "👟", text: I[cat][1] });
+  if (w.rain >= 40) out.push({ icon: "☔", text: I.rain });
+  if (w.wind >= 20) out.push({ icon: "🌬️", text: I.wind });
+  out.push(w.uv >= 6 ? { icon: "🧴", text: I.sun } : { icon: "🕶️", text: I.shades });
+  return { items: out, cat };
 }
 
-function buildTip(w) {
-  const ui = t();
-  if (w.feels >= 27) return ui.tipHot;
-  if (w.feels >= 22) return ui.tipMild;
-  return ui.tipCool;
-}
-
-// ---------- רינדור ----------
-function render(w) {
-  const ui = t();
+function render() {
+  if (!raw) return;
+  const u = L();
+  const w = raw;
   const key = condKey(w.code);
-  const condText = ui.cond[key];
+  const cond = u.cond[key];
+  const oc = outfitFor(w);
 
-  document.getElementById("city").textContent = cityName(current);
-  document.getElementById("temp").textContent = `${w.temp}°`;
-  document.getElementById("condition").textContent = `${ICONS[key]} ${condText}`;
-  document.getElementById("hilo").textContent = ui.todayHL(w.high, w.low);
-  document.getElementById("feels").textContent = `${w.feels}°`;
-  document.getElementById("wind").textContent = `${w.windKmh} ${ui.windUnit}`;
-  document.getElementById("humidity").textContent = `${w.humidity}%`;
-  document.getElementById("summary").textContent = ui.summary(w, condText);
+  document.getElementById("place").textContent = placeName();
+  document.getElementById("temp").textContent = w.temp + "°";
+  document.getElementById("cond").textContent = ICON[key] + " " + cond;
+  document.getElementById("hilo").textContent = u.today + ": " + w.high + "° / " + w.low + "°";
+  document.getElementById("feels").textContent = w.feels + "°";
+  document.getElementById("wind").textContent = w.wind + " " + u.unit;
+  document.getElementById("hum").textContent = w.hum + "%";
+
+  document.getElementById("summary").textContent =
+    cond + ", " + w.temp + "°. " + u.today + " " + w.high + "°, " + u.night + " " + w.low + "°. " +
+    u.adv[oc.cat] + " " + u.sunset + " " + w.sunset + ".";
 
   const list = document.getElementById("outfit");
   list.innerHTML = "";
-  buildOutfit(w).forEach(item => {
+  oc.items.forEach(it => {
     const li = document.createElement("li");
-    li.innerHTML = `<span class="icon">${item.icon}</span><span></span>`;
-    li.querySelector("span:last-child").textContent = item.text;
+    const ic = document.createElement("span");
+    ic.className = "icon";
+    ic.textContent = it.icon;
+    const tx = document.createElement("span");
+    tx.textContent = it.text;
+    li.appendChild(ic);
+    li.appendChild(tx);
     list.appendChild(li);
   });
-  document.getElementById("tip").textContent = buildTip(w);
+  document.getElementById("tip").textContent = u.tips[oc.cat];
 }
 
-// ---------- התחלה ----------
 (function init() {
-  let savedLang = "he", savedTheme = "pink";
   try {
-    savedLang = localStorage.getItem(STORAGE.lang) || "he";
-    savedTheme = localStorage.getItem(STORAGE.theme) || "pink";
+    lang = localStorage.getItem("oa-lang") || "he";
+    theme = localStorage.getItem("oa-theme") || "pink";
   } catch (e) {}
-  lang = T[savedLang] ? savedLang : "he";
-  applyStaticText();
-  setTheme(savedTheme, false);
+  if (!T[lang]) lang = "he";
+  document.getElementById("langSelect").value = lang;
+  applyText();
+  setTheme(theme);
 
-  const saved = readSavedLocation();
-  if (saved && saved.geo) useMyLocation();
-  else if (saved && saved.custom) loadPlace(saved);
-  else if (saved && saved.idx !== undefined && CITIES[saved.idx]) loadPlace(saved);
-  else loadPlace({ idx: 0, lat: CITIES[0].lat, lon: CITIES[0].lon });
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem("oa-place")); } catch (e) {}
+  if (saved && saved.geo) load(saved);
+  else if (saved && (saved.idx !== null || saved.custom)) load(saved);
+  else load({ idx: 0, custom: null, geo: false, lat: CITIES[0][3], lon: CITIES[0][4] });
 })();
 </script>
 </body>
